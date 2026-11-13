@@ -1,15 +1,17 @@
 # Proyek Analisis Data: E-Commerce Public Dataset
 
-Proyek akhir analisis data kelas **Belajar Analisis Data dengan Python** dari Dicoding Indonesia. Proyek ini mencakup seluruh tahapan analisis data mulai dari perumusan pertanyaan bisnis SMART, Data Wrangling, Exploratory Data Analysis (EDA), Visualisasi Data interaktif, Analisis Lanjutan (RFM & Geospatial), hingga pembuatan dashboard analitik interaktif berbasis Streamlit.
+Proyek akhir analisis data kelas **Belajar Analisis Data dengan Python** dari Dicoding Indonesia. Proyek ini mencakup seluruh tahapan analisis data secara komprehensif: perumusan pertanyaan bisnis berstandar SMART, Data Wrangling (Gathering, Assessing, Cleaning), Exploratory Data Analysis (EDA), Visualisasi Data interaktif, Analisis Lanjutan (RFM Analysis & Geospatial Analysis interaktif dengan Folium), serta Dashboard Analitik Interaktif berbasis Streamlit.
 
 ---
 
 ## 1. Pertanyaan Bisnis (SMART Method)
-1. **Performa Kategori Produk (2017 - 2018):** Kategori produk apa saja yang mencatatkan volume penjualan (jumlah item terjual) dan pendapatan (*revenue*) tertinggi serta terendah sepanjang tahun 2017 sampai 2018?
-2. **Kualitas Pengiriman & Kepuasan Pelanggan (2017 - 2018):** Bagaimana korelasi antara keterlambatan pengiriman (*delivery delay*) terhadap rata-rata skor ulasan (*customer review score*) pada transaksi tahun 2017 sampai 2018?
-3. **Analisis Lanjutan:**
-   - **RFM Analysis:** Segmentasi pelanggan berbasis Recency, Frequency, dan Monetary menggunakan manual binning.
-   - **Geospatial Analysis:** Pemetaan distribusi konsentrasi pesanan dan pelanggan berdasarkan negara bagian (*state*) di Brasil.
+1. **Performa Kategori Produk & Penjualan (2017–2018):**
+   *Kategori produk apa saja yang mencatatkan volume penjualan (jumlah item terjual) dan pendapatan (revenue) tertinggi serta terendah sepanjang tahun 2017 sampai 2018?*
+2. **Kualitas Pengiriman & Kepuasan Pelanggan (2017–2018):**
+   *Bagaimana korelasi dan perbedaan rata-rata skor ulasan (customer review score) antara pesanan tepat waktu (On Time) dan pesanan terlambat (Late) pada transaksi tahun 2017 sampai 2018?*
+3. **Penerapan Analisis Lanjutan (Kriteria Bintang 5):**
+   - **RFM Analysis:** Mengelompokkan pelanggan berdasarkan perilaku transaksi (*Recency*, *Frequency*, *Monetary*) menggunakan segmentasi *manual grouping* tanpa algoritma machine learning.
+   - **Geospatial Analysis:** Menganalisis sebaran spasial pelanggan dan penjual di Brasil menggunakan peta interaktif **Folium** berbasis koordinat latitude dan longitude.
 
 ---
 
@@ -19,7 +21,8 @@ Proyek akhir analisis data kelas **Belajar Analisis Data dengan Python** dari Di
 submission/
 ├───dashboard/
 │   ├───main_data.csv          # Dataset teragregasi dan bersih untuk dashboard
-│   └───dashboard.py           # Skrip aplikasi dashboard Streamlit
+│   ├───dashboard.py           # Skrip aplikasi dashboard Streamlit interaktif
+│   └───requirements.txt       # Dependensi dashboard
 ├───data/
 │   ├───customers_dataset.csv
 │   ├───geolocation_dataset.csv
@@ -33,21 +36,19 @@ submission/
 ├───notebook.ipynb             # Jupyter Notebook lengkap dan telah dieksekusi
 ├───README.md                  # Dokumentasi proyek
 ├───requirements.txt           # Daftar library dependensi Python
-└───url.txt                    # Tautan dashboard Streamlit Cloud
+└───url.txt                    # Tautan dashboard Streamlit Community Cloud
 ```
 
 ---
 
 ## 3. Instalasi dan Setup Environment
 
-### Langkah 1: Clone atau Buka Folder Proyek
-Pastikan terminal berada pada direktori utama proyek (`submission`):
+### Langkah 1: Masuk ke Direktori Proyek
 ```bash
 cd submission
 ```
 
-### Langkah 2: Buat dan Aktifkan Virtual Environment (Opsional tapi Disarankan)
-Menggunakan `venv` bawaan Python:
+### Langkah 2: Buat dan Aktifkan Virtual Environment (Opsional)
 ```bash
 # Windows
 python -m venv venv
@@ -58,14 +59,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-Atau menggunakan Conda:
-```bash
-conda create --name ecommerce-ds python=3.12
-conda activate ecommerce-ds
-```
-
 ### Langkah 3: Install Dependensi
-Jalankan perintah berikut untuk menginstal seluruh pustaka yang diperlukan:
 ```bash
 pip install -r requirements.txt
 ```
@@ -75,38 +69,55 @@ pip install -r requirements.txt
 ## 4. Cara Menjalankan
 
 ### A. Menjalankan Jupyter Notebook
-Untuk meninjau seluruh tahapan data wrangling, EDA, visualisasi, dan kesimpulan:
 ```bash
 jupyter notebook notebook.ipynb
 ```
-Seluruh sel pada `notebook.ipynb` sudah dieksekusi dan menyertakan output visualisasi serta ringkasan insight.
+Seluruh sel pada `notebook.ipynb` sudah dieksekusi lengkap dan menyertakan output visualisasi, tabel statistik, pengujian korelasi, serta peta interaktif Folium.
 
 ### B. Menjalankan Dashboard Streamlit
-Untuk menjalankan dashboard analitik interaktif di browser lokal:
 ```bash
 streamlit run dashboard/dashboard.py
 ```
-Aplikasi dashboard akan otomatis terbuka di browser pada alamat default:
+Aplikasi dashboard akan otomatis terbuka di browser lokal pada alamat default:
 `http://localhost:8501`
 
 ---
 
-## 5. Ringkasan Temuan & Rekomendasi Aksi
+## 5. Ringkasan Temuan Kuantitatif & Rekomendasi Aksi
 
-1. **Kategori Unggulan vs Underperforming:**
-   - Kategori **bed_bath_table** (10.945 item) dan **health_beauty** (9.422 item) mencatatkan volume penjualan tertinggi. Kategori **health_beauty** menghasilkan total pendapatan terbesar (> 1,22 juta BRL).
-   - Kategori dengan traksi paling rendah adalah **security_and_services** dan **fashion_childrens_clothes**.
-   - *Rekomendasi:* Perbanyak promosi dan kemitraan seller pada kategori kesehatan dan kebutuhan rumah tangga, serta evaluasi katalog produk berkinerja rendah.
+### A. Performa Produk & Penjualan (Pertanyaan 1)
+- **Top Performers:**
+  - Volume Tertinggi: `bed_bath_table` (**10.945 item**, revenue: R$ 1.022.955,77), `health_beauty` (**9.422 item**, revenue: R$ 1.229.557,50), dan `sports_leisure` (**8.413 item**, revenue: R$ 952.661,40).
+  - Revenue Tertinggi: `health_beauty` (**R$ 1.229.557,50**, 9.422 item), `watches_gifts` (**R$ 1.163.187,91**, 5.853 item), dan `bed_bath_table` (**R$ 1.022.955,77**, 10.945 item).
+- **Lowest Performers:**
+  - Volume Terendah: `security_and_services` (**2 item**, revenue: R$ 283,29), `fashion_childrens_clothes` (**7 item**, revenue: R$ 519,95), dan `la_cuisine` (**14 item**, revenue: R$ 2.054,99).
+  - Revenue Terendah: `security_and_services` (**R$ 283,29**, 2 item), `fashion_childrens_clothes` (**R$ 519,95**, 7 item), dan `cds_dvds_musicals` (**R$ 730,00**, 14 item).
+- **Pembedaan Karakteristik:** Kategori volume terendah belum tentu memiliki pendapatan terendah. Contohnya, `la_cuisine` berada di posisi ke-3 terbawah volume (14 item), namun mencetak revenue R$ 2.054,99 karena harga satuan produknya tinggi (rata-rata R$ 146,78). Sebaliknya, `home_comfort_2` menjual 30 item namun revenue-nya hanya R$ 760,27 karena harga rata-ratanya hanya R$ 25,34.
 
-2. **Dampak Logistik terhadap Kepuasan Pelanggan:**
-   - Pesanan tepat waktu memperoleh rata-rata review score **4.22/5.00** dengan lebih dari 60% rating bintang 5.
-   - Pesanan terlambat anjlok ke rata-rata **2.60/5.00** dengan 55.9% pelanggan memberikan rating bintang 1.
-   - *Rekomendasi:* Pengetatan SLA pengiriman bersama mitra ekspedisi dan penambahan estimasi kedatangan yang lebih realistis (*buffer time*).
+### B. Kepuasan Pelanggan & Logistik (Pertanyaan 2)
+- **Konteks Transaksi:** Dari **96.203 pesanan** pada periode 2017–2018, sebanyak **88.381 pesanan (91,87%)** tiba tepat waktu (*On Time*), sedangkan **7.822 pesanan (8,13%)** mengalami keterlambatan (*Late*).
+- **Penurunan Skor Ulasan:** Pesanan tepat waktu memperoleh rata-rata skor ulasan **4,22/5,00** (std: 1,23), sementara pesanan terlambat anjlok ke **2,60/5,00** (std: 1,68). Terjadi penurunan skor sebesar **1,62 poin**, dengan dasar perhitungan persentase:
+  $$\% \text{ Penurunan} = \frac{4{,}22 - 2{,}60}{4{,}22} \times 100\% = 38{,}25\%$$
+- **Pengukuran Korelasi Statistik:** Uji korelasi Pearson menunjukkan korelasi negatif yang signifikan antara keterlambatan dengan skor ulasan ($r = -0{,}3588, p < 0{,}001$), serta antara durasi keterlambatan hari dengan skor ulasan ($r = -0{,}2643, p < 0{,}001$).
+- **Interpretasi Objektif:** Data membuktikan adanya hubungan asosiatif negatif yang kuat di mana pesanan terlambat cenderung mendapatkan ulasan buruk (45,80% rating bintang 1 pada pesanan terlambat vs 8,29% pada pesanan tepat waktu). Temuan ini tidak diklaim sebagai hubungan sebab-akibat tunggal, karena kepuasan pelanggan juga dipengaruhi oleh kualitas produk dan respon komunikasi seller.
 
-3. **Segmentasi Pelanggan (RFM):**
-   - Mayoritas basis pelanggan adalah pembeli satu kali yang masuk ke kelompok **Potential Regulars** dan **At Risk**.
-   - *Rekomendasi:* Kirimkan kampanye email personalisasi dengan diskon ongkos kirim terbatas waktu kepada segmen *At Risk* untuk memicu repeat purchase.
+### C. Analisis Lanjutan (RFM & Geospatial Folium)
+- **RFM:** Sebagian besar pelanggan merupakan pembeli satu kali yang berada pada segmen *Potential Regulars* (38.835) dan *At Risk* (29.231).
+- **Geospasial:** Peta interaktif Folium mengidentifikasi konsentrasi ekstrem aktivitas e-commerce di wilayah pesisir Tenggara Brasil (São Paulo >41% pesanan nasional). Konsentrasi penjual (*sellers*) di kawasan Tenggara menghasilkan rata-rata ongkos kirim yang jauh lebih murah (R$ 15,15 di SP vs R$ 38,26 di MA).
 
-4. **Konsentrasi Geografis:**
-   - Wilayah Tenggara Brasil, terutama negara bagian **São Paulo (SP)**, mendominasi lebih dari 41% total pesanan nasional.
-   - *Rekomendasi:* Prioritaskan penempatan hub logistik dan inventaris terdekat di kawasan SP untuk meminimalkan waktu tempuh dan menekan komplain pengiriman.
+---
+
+## 6. Rekomendasi Bisnis (Action Items)
+
+1. **Pengelolaan Stok Cadangan (*Safety Stock*):**
+   Menerapkan kebijakan *safety stock* otomatis sebesar 15–20% di atas rata-rata volume bulanan untuk kategori unggulan (*Bed Bath Table* dan *Health Beauty*) menjelang periode kampanye besar (seperti Black Friday dan akhir tahun) guna mencegah kehabisan stok (*stock-out*).
+2. **Strategi Promosi & Bundling:**
+   Merancang program promosi *bundling* antara kategori bervolume tinggi (*Bed Bath Table*) dengan kategori bernilai transaksi tinggi seperti *Watches Gifts* (rata-rata R$ 198,73) guna meningkatkan *Average Order Value*.
+3. **Evaluasi & Restrukturisasi Kategori Terendah:**
+   Mengaudit kategori berkinerja terendah (*Security & Services*, *Fashion Childrens Clothes*, *CDS DVDS Musicals*), mengevaluasi listing merchant, meningkatkan relevansi pencarian, atau merelokasi slot promosi ke kategori yang lebih diminati pasar.
+4. **Audit Pengiriman & Pengetatan SLA Logistik:**
+   Mengevaluasi performa pengiriman pada 7.822 pesanan terlambat dan memberlakukan Service Level Agreement (SLA) ketat dengan penalti performa bagi mitra ekspedisi yang gagal mencapai target ketepatan waktu 95% pada rute antar-kawasan.
+5. **Estimasi Waktu Pengiriman Dinamis (*Dynamic EDD*):**
+   Memperbaiki penetapan estimasi tanggal kedatangan dengan menyematkan *buffer time* 2–3 hari kerja untuk wilayah di luar Tenggara, agar ekspektasi pelanggan tetap realistis.
+6. **Sistem Notifikasi Dini & Pemulihan Proaktif:**
+   Membangun sistem pelacakan otomatis yang mendeteksi paket tertahan di hub transit lebih dari 48 jam untuk mengirimkan permohonan maaf dan voucher diskon belanja berikutnya secara proaktif sebelum pelanggan memberikan ulasan buruk.
