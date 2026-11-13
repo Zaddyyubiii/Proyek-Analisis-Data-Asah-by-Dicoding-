@@ -25,6 +25,8 @@ def load_data():
     possible_paths = [
         os.path.join(base_dir, "main_data.csv"),
         os.path.join(base_dir, "..", "dashboard", "main_data.csv"),
+        os.path.join(os.getcwd(), "submission", "dashboard", "main_data.csv"),
+        "submission/dashboard/main_data.csv",
         "dashboard/main_data.csv",
         "main_data.csv"
     ]
